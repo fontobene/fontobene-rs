@@ -69,10 +69,22 @@ mod tests {
             rule: Rule::declaration,
             tokens: [
                 declaration(0, 6, [
-                    codepoint(1, 5)
+                    glyph(0, 6, [
+                        codepoint(1, 5)
+                    ])
                 ])
                 // name_of_rule(start_pos, end_pos, [children])
             ]
+        }
+
+        // Should not parse `[ 0041  ]`
+        fails_with! {
+            parser: FontobeneParser,
+            input: "[ 0041  ]",
+            rule: Rule::declaration,
+            positives: vec![Rule::codepoint],
+            negatives: vec![],
+            pos: 1
         }
     }
 
@@ -85,7 +97,9 @@ mod tests {
             rule: Rule::declaration,
             tokens: [
                 declaration(0, 12, [
-                    codepoint(1, 6)
+                    glyph(0, 7, [
+                        codepoint(1, 6)
+                    ])
                 ])
                 // name_of_rule(start_pos, end_pos, [children])
             ]
