@@ -4,7 +4,7 @@ codepoint  = ${ hex_nozero ~ hex ~ hex ~ hex ~ hex ~ hex |
                 hex_nozero ~ hex ~ hex ~ hex ~ hex |
                 hex ~ hex ~ hex ~ hex }
 
-declaration = { "[" ~ codepoint ~ "]" }
+declaration = { "[" ~ codepoint ~ "]" ~ (!newline ~ any)* }
 
 // Special rules, automatically inserted in non-atomic rules.
 // See https://docs.rs/pest_derive/1.0.0-beta.15/pest_derive/

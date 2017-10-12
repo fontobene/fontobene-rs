@@ -19,7 +19,7 @@ mod tests {
 
     #[test]
     fn codepoint() {
-        // Should parse 004A
+        // Should parse `004A`
         parses_to! {
             parser: FontobeneParser,
             input: "004A",
@@ -29,7 +29,7 @@ mod tests {
             ]
         }
 
-        // Should not parse 004a
+        // Should not parse `00 4a`
         fails_with! {
             parser: FontobeneParser,
             input: "00 4a",
@@ -39,7 +39,7 @@ mod tests {
             pos: 0
         }
 
-        // Should not parse 004A
+        // Should not parse `004A`
         fails_with! {
             parser: FontobeneParser,
             input: "00 4A",
@@ -49,7 +49,7 @@ mod tests {
             pos: 0
         }
 
-        // Should parse 100000
+        // Should parse `100000`
         parses_to! {
             parser: FontobeneParser,
             input: "100000",
@@ -62,7 +62,7 @@ mod tests {
 
     #[test]
     fn declaration_simple() {
-        // Should parse [0041]
+        // Should parse `[0041]`
         parses_to! {
             parser: FontobeneParser,
             input: "[0041]",
@@ -70,6 +70,22 @@ mod tests {
             tokens: [
                 declaration(0, 6, [
                     codepoint(1, 5)
+                ])
+                // name_of_rule(start_pos, end_pos, [children])
+            ]
+        }
+    }
+
+    #[test]
+    fn declaration_with_comment() {
+        // Should parse `[1F4A9] 💩`
+        parses_to! {
+            parser: FontobeneParser,
+            input: "[1F4A9] 💩",
+            rule: Rule::declaration,
+            tokens: [
+                declaration(0, 12, [
+                    codepoint(1, 6)
                 ])
                 // name_of_rule(start_pos, end_pos, [children])
             ]
