@@ -1,0 +1,14 @@
+// Literals
+alpha        = { 'a'..'z' | 'A'..'Z' }
+digit_nozero = { '0'..'9' }
+digit        = { '0' | digit }
+separator    = { '.' }
+number       = { '-'? ~ digit_nozero ~ digit* ~ separator ~ digit+ |
+                 digit_nozero ~ digit* 
+
+hex_nozero = { '1'..'9' | 'A'..'F' }
+hex        = { '0' | hex_nozero }
+
+codepoint  = { hex ~ hex ~ hex ~ hex |
+               hex_nozero ~ hex ~ hex ~ hex ~ hex |
+               hex_nozero ~ hex_nozero ~ hex ~ hex ~ hex ~ hex }

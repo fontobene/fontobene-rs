@@ -1,0 +1,5 @@
+hex_nozero = { '1'..'9' | 'A'..'F' }
+hex        = { "0" | hex_nozero }
+codepoint  = { hex ~ hex ~ hex ~ hex |
+               hex_nozero ~ hex ~ hex ~ hex ~ hex |
+               hex_nozero ~ hex ~ hex ~ hex ~ hex ~ hex }

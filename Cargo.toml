@@ -1,0 +1,8 @@
+[package]
+name = "fontobene"
+version = "0.1.0"
+authors = ["Danilo Bargen <mail@dbrgn.ch>"]
+
+[dependencies]
+pest = "^1.0.0-beta"
+pest_derive = "^1.0.0-beta"
