@@ -186,4 +186,84 @@ mod tests {
         }
     }
 
+    #[test]
+    fn coord_pair() {
+        // Should parse `1,2`
+        parses_to! {
+            parser: FontobeneParser,
+            input: "1,2",
+            rule: Rule::coord_pair,
+            tokens: [
+                coord_pair(0, 3, [
+                    number(0, 1),
+                    number(2, 3)
+                ])
+            ]
+        }
+
+        // Should parse `0,-12.345`
+        parses_to! {
+            parser: FontobeneParser,
+            input: "0,-12.345",
+            rule: Rule::coord_pair,
+            tokens: [
+                coord_pair(0, 9, [
+                    number(0, 1),
+                    number(2, 9)
+                ])
+            ]
+        }
+
+        // Should not parse `1, 2`
+        fails_with! {
+            parser: FontobeneParser,
+            input: "1, 2",
+            rule: Rule::coord_pair,
+            positives: vec![Rule::number],
+            negatives: vec![],
+            pos: 2
+        }
+    }
+
+    #[test]
+    fn polyline() {
+        // Should parse `1,2`
+        parses_to! {
+            parser: FontobeneParser,
+            input: "1,2",
+            rule: Rule::polyline,
+            tokens: [
+                polyline(0, 3, [
+                    coord_pair(0, 3, [
+                        number(0, 1),
+                        number(2, 3)
+                    ])
+                ])
+            ]
+        }
+
+        // Should parse `0,-12.345;-1,0;2,0.1`
+        parses_to! {
+            parser: FontobeneParser,
+            input: "0,-12.345;-1,0;2,0.1",
+            rule: Rule::polyline,
+            tokens: [
+                polyline(0, 20, [
+                    coord_pair(0, 9, [
+                        number(0, 1),
+                        number(2, 9)
+                    ]),
+                    coord_pair(10, 14, [
+                        number(10, 12),
+                        number(13, 14)
+                    ]),
+                    coord_pair(15, 20, [
+                        number(15, 16),
+                        number(17, 20)
+                    ])
+                ])
+            ]
+        }
+    }
+
 }
