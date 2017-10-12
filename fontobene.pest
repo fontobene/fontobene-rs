@@ -1,5 +1,11 @@
 hex_nozero = _{ '1'..'9' | 'A'..'F' }
 hex        = _{ "0" | hex_nozero }
-codepoint  =  { hex_nozero ~ hex ~ hex ~ hex ~ hex ~ hex |
+codepoint  = ${ hex_nozero ~ hex ~ hex ~ hex ~ hex ~ hex |
                 hex_nozero ~ hex ~ hex ~ hex ~ hex |
                 hex ~ hex ~ hex ~ hex }
+
+// Special rules, automatically inserted in non-atomic rules.
+// See https://docs.rs/pest_derive/1.0.0-beta.15/pest_derive/
+newline    = _{ "\n" | "\r\n" }
+whitespace = _{ " " | "\t" | newline }
+comment    = _{ "#" ~ (!newline ~ any)* }
