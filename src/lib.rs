@@ -59,4 +59,21 @@ mod tests {
             ]
         }
     }
+
+    #[test]
+    fn declaration_simple() {
+        // Should parse [0041]
+        parses_to! {
+            parser: FontobeneParser,
+            input: "[0041]",
+            rule: Rule::declaration,
+            tokens: [
+                declaration(0, 6, [
+                    codepoint(1, 5)
+                ])
+                // name_of_rule(start_pos, end_pos, [children])
+            ]
+        }
+    }
+
 }
