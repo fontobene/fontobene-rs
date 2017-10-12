@@ -6,6 +6,7 @@ codepoint  = ${ hex_nozero ~ hex ~ hex ~ hex ~ hex ~ hex |
 
 glyph       = @{ "[" ~ codepoint ~ "]" }
 declaration =  { glyph ~ (!newline ~ any)* }
+reference   = ${ "@" ~ codepoint }
 
 // Special rules, automatically inserted in non-atomic rules.
 // See https://docs.rs/pest_derive/1.0.0-beta.15/pest_derive/

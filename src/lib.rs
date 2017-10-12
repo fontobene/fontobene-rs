@@ -17,6 +17,10 @@ struct FontobeneParser;
 mod tests {
     use super::*;
 
+    // For information about the parses_to! and fails_with! macros,
+    // see https://docs.rs/pest/1.0.0-beta/pest/macro.parses_to.html
+    // and https://docs.rs/pest/1.0.0-beta/pest/macro.fails_with.html
+
     #[test]
     fn codepoint() {
         // Should parse `004A`
@@ -25,7 +29,7 @@ mod tests {
             input: "004A",
             rule: Rule::codepoint,
             tokens: [
-                codepoint(0, 4) // name_of_rule(start_pos, end_pos): no children
+                codepoint(0, 4)
             ]
         }
 
@@ -55,7 +59,7 @@ mod tests {
             input: "100000",
             rule: Rule::codepoint,
             tokens: [
-                codepoint(0, 6) // name_of_rule(start_pos, end_pos): no children
+                codepoint(0, 6)
             ]
         }
     }
@@ -73,7 +77,6 @@ mod tests {
                         codepoint(1, 5)
                     ])
                 ])
-                // name_of_rule(start_pos, end_pos, [children])
             ]
         }
 
@@ -101,7 +104,21 @@ mod tests {
                         codepoint(1, 6)
                     ])
                 ])
-                // name_of_rule(start_pos, end_pos, [children])
+            ]
+        }
+    }
+
+    #[test]
+    fn reference() {
+        // Should parse `@0041`
+        parses_to! {
+            parser: FontobeneParser,
+            input: "@0041",
+            rule: Rule::reference,
+            tokens: [
+                reference(0, 5, [
+                    codepoint(1, 5)
+                ])
             ]
         }
     }
