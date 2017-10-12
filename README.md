@@ -4,7 +4,7 @@
 
 This repository contains two things:
 
-* The authoritative PEG grammar for the FontoBene font format
+* The authoritative PEG grammar for the FontoBene font format: [`fontobene.pest`](fontobene.pest)
 * A [FontoBene](https://github.com/fontobene/fontobene/) parser written with
   [Rust](https://www.rust-lang.org/en-US/) and the
   [pest parser generator](https://github.com/pest-parser/pest) that acts both
