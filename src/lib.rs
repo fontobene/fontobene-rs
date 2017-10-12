@@ -266,4 +266,56 @@ mod tests {
         }
     }
 
+    #[test]
+    fn definition() {
+        parses_to! {
+            parser: FontobeneParser,
+            input: "[0041]\n@0040",
+            rule: Rule::definition,
+            tokens: [
+                definition(0, 12, [
+                    declaration(0, 6, [
+                        glyph(0, 6, [
+                            codepoint(1, 5)
+                        ])
+                    ]),
+                    reference(7, 12, [
+                        codepoint(8, 12)
+                    ])
+                ])
+            ]
+        }
+
+        parses_to! {
+            parser: FontobeneParser,
+            input: "[0041] A\n@0040  \n 1,2;3,-4.1\n@0039",
+            rule: Rule::definition,
+            tokens: [
+                definition(0, 34, [
+                    declaration(0, 8, [
+                        glyph(0, 6, [
+                            codepoint(1, 5)
+                        ])
+                    ]),
+                    reference(9, 14, [
+                        codepoint(10, 14)
+                    ]),
+                    polyline(18, 28, [
+                        coord_pair(18, 21, [
+                           number(18, 19),
+                           number(20, 21)
+                        ]),
+                        coord_pair(22, 28, [
+                           number(22, 23),
+                           number(24, 28)
+                        ])
+                    ]),
+                    reference(29, 34, [
+                      codepoint(30, 34)
+                    ])
+                ])
+            ]
+        }
+    }
+
 }
