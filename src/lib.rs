@@ -121,6 +121,69 @@ mod tests {
                 ])
             ]
         }
+
+        // Should not parse `@ 0041`
+        fails_with! {
+            parser: FontobeneParser,
+            input: "@ 0041",
+            rule: Rule::reference,
+            positives: vec![Rule::codepoint],
+            negatives: vec![],
+            pos: 1
+        }
+    }
+
+    #[test]
+    fn number() {
+        // Should parse `123`
+        parses_to! {
+            parser: FontobeneParser,
+            input: "123",
+            rule: Rule::number,
+            tokens: [
+                number(0, 3)
+            ]
+        }
+
+        // Should parse 0
+        parses_to! {
+            parser: FontobeneParser,
+            input: "0",
+            rule: Rule::number,
+            tokens: [
+                number(0, 1)
+            ]
+        }
+
+        // Should parse `1.23`
+        parses_to! {
+            parser: FontobeneParser,
+            input: "1.23",
+            rule: Rule::number,
+            tokens: [
+                number(0, 4)
+            ]
+        }
+
+        // Should parse 0.0
+        parses_to! {
+            parser: FontobeneParser,
+            input: "0.0",
+            rule: Rule::number,
+            tokens: [
+                number(0, 3)
+            ]
+        }
+
+        // Should parse -12.345
+        parses_to! {
+            parser: FontobeneParser,
+            input: "-12.345",
+            rule: Rule::number,
+            tokens: [
+                number(0, 7)
+            ]
+        }
     }
 
 }

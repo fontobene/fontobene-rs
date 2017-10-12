@@ -1,11 +1,23 @@
-hex_nozero = _{ '1'..'9' | 'A'..'F' }
+// Hex literals
 hex        = _{ "0" | hex_nozero }
-codepoint  = ${ hex_nozero ~ hex ~ hex ~ hex ~ hex ~ hex |
-                hex_nozero ~ hex ~ hex ~ hex ~ hex |
-                hex ~ hex ~ hex ~ hex }
+hex_nozero = _{ '1'..'9' | 'A'..'F' }
 
+// Numeric literals
+digit   = _{ '0'..'9' }
+digits  = @{ digit+ }
+int     = @{ "0" | ('1'..'9' ~ digits?) }
+number  = @{ "-"? ~ int ~ ("." ~ digits)? }
+
+// Codepoint
+codepoint = ${ hex_nozero ~ hex ~ hex ~ hex ~ hex ~ hex |
+               hex_nozero ~ hex ~ hex ~ hex ~ hex |
+               hex ~ hex ~ hex ~ hex }
+
+// Glyph declaration
 glyph       = @{ "[" ~ codepoint ~ "]" }
 declaration =  { glyph ~ (!newline ~ any)* }
+
+// Glyph body
 reference   = ${ "@" ~ codepoint }
 
 // Special rules, automatically inserted in non-atomic rules.
