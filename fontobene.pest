@@ -20,8 +20,10 @@ polyline    = ${ coord_pair ~ (";" ~ coord_pair)* }
 bodyitem    = _{ (reference | polyline) }
 definition  =  { declaration ~ newline ~ bodyitem ~ (newline ~ bodyitem)* }
 
+// Newlines
+newline = _{ "\n" | "\r\n" }
+
 // Special rules, automatically inserted in non-atomic rules.
 // See https://docs.rs/pest_derive/1.0.0-beta.15/pest_derive/
-newline    = _{ "\n" | "\r\n" }
 whitespace = _{ " " | "\t" }
 comment    = _{ "#" ~ (!newline ~ any)* }
