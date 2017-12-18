@@ -10,14 +10,16 @@ hex        = _{ "0" | hex_nozero }
 hex_nozero = _{ '1'..'9' | 'A'..'F' }
 
 // Numeric literals
-digit   = _{ '0'..'9' }
-digits  = @{ digit+ }
-int     = @{ "0" | ('1'..'9' ~ digits?) }
-number  = @{ "-"? ~ int ~ ("." ~ digits)? }
+digit  = _{ '0'..'9' }
+digits = @{ digit+ }
+int    = @{ "0" | ('1'..'9' ~ digits?) }
+number = @{ "-"? ~ int ~ ("." ~ digits)? }
+
+// Identifiers
+ident = @{ char ~ (char | "_")* }
 
 // Header definitions
-header_section_name = @{ char ~ (char | "_")* }
-header_section      = ${ "[" ~ header_section_name ~ "]" }
+header_section      = ${ "[" ~ ident ~ "]" }
 
 // Glyph definition
 codepoint   = ${ hex_nozero ~ hex ~ hex ~ hex ~ hex ~ hex |

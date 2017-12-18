@@ -310,7 +310,7 @@ fn header_section_simple() {
         rule: Rule::header_section,
         tokens: [
             header_section(0, 7, [
-                header_section_name(1, 6)
+                ident(1, 6)
             ])
         ]
     }
@@ -320,7 +320,7 @@ fn header_section_simple() {
         parser: FontobeneParser,
         input: "[_font]",
         rule: Rule::header_section,
-        positives: vec![Rule::header_section_name],
+        positives: vec![Rule::ident],
         negatives: vec![],
         pos: 1
     }
