@@ -1,4 +1,11 @@
+// Pest modifiers:
+// _ -> Silent (no token pairs, no error reporting)
+// @ -> Atomic (No whitespace, cascading)
+// $ -> Compound atomic (Like atomic but not cascading)
+// ! -> Non-atomic (Stop cascading of atomics)
+
 // Hex literals
+char       = _{ 'a'..'z' | 'A'..'Z' }
 hex        = _{ "0" | hex_nozero }
 hex_nozero = _{ '1'..'9' | 'A'..'F' }
 
@@ -8,10 +15,14 @@ digits  = @{ digit+ }
 int     = @{ "0" | ('1'..'9' ~ digits?) }
 number  = @{ "-"? ~ int ~ ("." ~ digits)? }
 
+// Header definitions
+header_section_name = @{ char ~ (char | "_")* }
+header_section      = ${ "[" ~ header_section_name ~ "]" }
+
 // Glyph definition
-codepoint = ${ hex_nozero ~ hex ~ hex ~ hex ~ hex ~ hex |
-               hex_nozero ~ hex ~ hex ~ hex ~ hex |
-               hex ~ hex ~ hex ~ hex }
+codepoint   = ${ hex_nozero ~ hex ~ hex ~ hex ~ hex ~ hex |
+                 hex_nozero ~ hex ~ hex ~ hex ~ hex |
+                 hex ~ hex ~ hex ~ hex }
 glyph       = @{ "[" ~ codepoint ~ "]" }
 declaration =  { glyph ~ (!newline ~ any)* }
 reference   = ${ "@" ~ codepoint }

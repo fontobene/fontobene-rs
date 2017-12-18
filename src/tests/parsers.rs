@@ -300,3 +300,28 @@ fn definition() {
         ]
     }
 }
+
+#[test]
+fn header_section_simple() {
+    // Should parse `[font]`
+    parses_to! {
+        parser: FontobeneParser,
+        input: "[fo_nt]",
+        rule: Rule::header_section,
+        tokens: [
+            header_section(0, 7, [
+                header_section_name(1, 6)
+            ])
+        ]
+    }
+
+    // Should not parse `[_font]`
+    fails_with! {
+        parser: FontobeneParser,
+        input: "[_font]",
+        rule: Rule::header_section,
+        positives: vec![Rule::header_section_name],
+        negatives: vec![],
+        pos: 1
+    }
+}
