@@ -325,3 +325,18 @@ fn header_section_simple() {
         pos: 1
     }
 }
+
+#[test]
+fn string() {
+    // Should parse `"hello"`
+    parses_to! {
+        parser: FontobeneParser,
+        input: "\"hello\"",
+        rule: Rule::string,
+        tokens: [
+            string(0, 7, [
+                string_value(1, 6)
+            ])
+        ]
+    }
+}

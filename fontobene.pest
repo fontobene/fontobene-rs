@@ -15,6 +15,10 @@ digits = @{ digit+ }
 int    = @{ "0" | ('1'..'9' ~ digits?) }
 number = @{ "-"? ~ int ~ ("." ~ digits)? }
 
+// Strings
+string       = ${ "\"" ~ string_value ~ "\"" }
+string_value = @{ (!"\"" ~ any)* }
+
 // Identifiers
 ident = @{ char ~ (char | "_")* }
 
