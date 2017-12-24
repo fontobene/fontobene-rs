@@ -302,6 +302,69 @@ fn definition() {
 }
 
 #[test]
+fn string() {
+    // Should parse `hello`
+    parses_to! {
+        parser: FontobeneParser,
+        input: "hello",
+        rule: Rule::string,
+        tokens: [
+            string(0, 5)
+        ]
+    }
+
+    // Should parse `"hello"`
+    parses_to! {
+        parser: FontobeneParser,
+        input: "\"hello\"",
+        rule: Rule::string,
+        tokens: [
+            string(0, 7)
+        ]
+    }
+
+    // Should parse `a b`
+    parses_to! {
+        parser: FontobeneParser,
+        input: "a b",
+        rule: Rule::string,
+        tokens: [
+            string(0, 3)
+        ]
+    }
+
+    // Should not parse an empty string
+    fails_with! {
+        parser: FontobeneParser,
+        input: "",
+        rule: Rule::string,
+        positives: vec![Rule::string],
+        negatives: vec![],
+        pos: 0
+    }
+
+    // Should not parse whitespace
+    fails_with! {
+        parser: FontobeneParser,
+        input: "  ",
+        rule: Rule::string,
+        positives: vec![Rule::string],
+        negatives: vec![],
+        pos: 0
+    }
+
+    // Should not parse leading whitespace
+    fails_with! {
+        parser: FontobeneParser,
+        input: "  a",
+        rule: Rule::string,
+        positives: vec![Rule::string],
+        negatives: vec![],
+        pos: 0
+    }
+}
+
+#[test]
 fn header_section_simple() {
     // Should parse `[font]`
     parses_to! {
@@ -327,15 +390,82 @@ fn header_section_simple() {
 }
 
 #[test]
-fn string() {
-    // Should parse `"hello"`
+fn header_key() {
+    // Should parse `foo_bar`
     parses_to! {
         parser: FontobeneParser,
-        input: "\"hello\"",
-        rule: Rule::string,
+        input: "foo_bar",
+        rule: Rule::header_key,
         tokens: [
-            string(0, 7, [
-                string_value(1, 6)
+            header_key(0, 7, [
+                ident(0, 7)
+            ])
+        ]
+    }
+}
+
+#[test]
+fn header_value() {
+    // Should parse `"foo bar"`
+    parses_to! {
+        parser: FontobeneParser,
+        input: "foo bar",
+        rule: Rule::header_value,
+        tokens: [
+            header_value(0, 7, [
+                string(0, 7)
+            ])
+        ]
+    }
+
+    // Should parse `-123.4`
+    parses_to! {
+        parser: FontobeneParser,
+        input: "-123.4",
+        rule: Rule::header_value,
+        tokens: [
+            header_value(0, 6, [
+                string(0, 6)
+            ])
+        ]
+    }
+}
+
+#[test]
+fn header_item_nowhitespace() {
+    // Should parse `foo=-1`
+    parses_to! {
+        parser: FontobeneParser,
+        input: "foo=-1",
+        rule: Rule::header_item,
+        tokens: [
+            header_item(0, 6, [
+                header_key(0, 3, [
+                   ident(0, 3)
+                ]),
+                header_value(4, 6, [
+                    string(4, 6)
+                ])
+            ])
+        ]
+    }
+}
+
+#[test]
+fn header_item_whitespace() {
+    // Should parse `foo =  a b c `
+    parses_to! {
+        parser: FontobeneParser,
+        input: "foo =  a b c ",
+        rule: Rule::header_item,
+        tokens: [
+            header_item(0, 13, [
+                header_key(0, 3, [
+                   ident(0, 3)
+                ]),
+                header_value(7, 13, [
+                    string(7, 13)
+                ])
             ])
         ]
     }

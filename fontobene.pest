@@ -16,14 +16,16 @@ int    = @{ "0" | ('1'..'9' ~ digits?) }
 number = @{ "-"? ~ int ~ ("." ~ digits)? }
 
 // Strings
-string       = ${ "\"" ~ string_value ~ "\"" }
-string_value = @{ (!"\"" ~ any)* }
+string = @{ !whitespace ~ any ~ any* }
 
 // Identifiers
 ident = @{ char ~ (char | "_")* }
 
 // Header definitions
-header_section      = ${ "[" ~ ident ~ "]" }
+header_section = ${ "[" ~ ident ~ "]" }
+header_key     = ${ ident }
+header_value   = ${ string }
+header_item    =  { header_key ~ "=" ~ header_value }
 
 // Glyph definition
 codepoint   = ${ hex_nozero ~ hex ~ hex ~ hex ~ hex ~ hex |
@@ -36,6 +38,9 @@ coord_pair  = ${ number ~ "," ~ number }
 polyline    = ${ coord_pair ~ (";" ~ coord_pair)* }
 bodyitem    = _{ (reference | polyline) }
 definition  =  { declaration ~ newline ~ bodyitem ~ (newline ~ bodyitem)* }
+
+// Main rule
+fontobene = { soi ~ eoi }
 
 // Newlines
 newline = _{ "\n" | "\r\n" }
