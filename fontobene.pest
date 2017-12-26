@@ -4,6 +4,9 @@
 // $ -> Compound atomic (Like atomic but not cascading)
 // ! -> Non-atomic (Stop cascading of atomics)
 
+// Helpers
+nonl = _{ !newline ~ any }
+
 // Hex literals
 char       = _{ 'a'..'z' | 'A'..'Z' }
 hex        = _{ "0" | hex_nozero }
@@ -16,7 +19,7 @@ int    = @{ "0" | ('1'..'9' ~ digits?) }
 number = @{ "-"? ~ int ~ ("." ~ digits)? }
 
 // Strings
-string = @{ !whitespace ~ any ~ any* }
+string = @{ !whitespace ~ nonl ~ nonl* }
 
 // Identifiers
 ident = @{ char ~ (char | "_")* }
@@ -26,13 +29,14 @@ header_section = ${ "[" ~ ident ~ "]" }
 header_key     = ${ ident }
 header_value   = ${ string }
 header_item    =  { header_key ~ "=" ~ header_value }
+header         =  { header_section ~ newline ~ header_item ~ (newline ~ header_item)* }
 
 // Glyph definition
 codepoint   = ${ hex_nozero ~ hex ~ hex ~ hex ~ hex ~ hex |
                  hex_nozero ~ hex ~ hex ~ hex ~ hex |
                  hex ~ hex ~ hex ~ hex }
 glyph       = @{ "[" ~ codepoint ~ "]" }
-declaration =  { glyph ~ (!newline ~ any)* }
+declaration =  { glyph ~ nonl* }
 reference   = ${ "@" ~ codepoint }
 coord_pair  = ${ number ~ "," ~ number }
 polyline    = ${ coord_pair ~ (";" ~ coord_pair)* }
@@ -48,4 +52,4 @@ newline = _{ "\n" | "\r\n" }
 // Special rules, automatically inserted in non-atomic rules.
 // See https://docs.rs/pest_derive/1.0.0-beta.15/pest_derive/
 whitespace = _{ " " | "\t" }
-comment    = _{ "#" ~ (!newline ~ any)* }
+comment    = _{ "#" ~ nonl* }
