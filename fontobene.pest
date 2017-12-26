@@ -29,7 +29,8 @@ header_section = ${ "[" ~ ident ~ "]" }
 header_key     = ${ ident }
 header_value   = ${ string }
 header_item    =  { header_key ~ "=" ~ header_value }
-header         =  { header_section ~ newline ~ header_item ~ (newline ~ header_item)* }
+header_part    =  { header_section ~ newline ~ header_item ~ (newline ~ header_item)* }
+header         =  { ( header_part ~ newline* )+ }
 
 // Glyph definition
 codepoint   = ${ hex_nozero ~ hex ~ hex ~ hex ~ hex ~ hex |

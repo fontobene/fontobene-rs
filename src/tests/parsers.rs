@@ -472,13 +472,13 @@ fn header_item_whitespace() {
 }
 
 #[test]
-fn header() {
+fn header_part() {
     parses_to! {
         parser: FontobeneParser,
         input: "[font]\nversion = 1.0\nid=librepcb",
-        rule: Rule::header,
+        rule: Rule::header_part,
         tokens: [
-            header(0, 32, [
+            header_part(0, 32, [
                 header_section(0, 6, [
                     ident(1, 5)
                 ]),
@@ -496,6 +496,53 @@ fn header() {
                     ]),
                     header_value(24, 32, [
                         string(24, 32)
+                    ])
+                ])
+            ])
+        ]
+    }
+}
+
+#[test]
+fn header() {
+    parses_to! {
+        parser: FontobeneParser,
+        input: "[font]\nversion = 1.0\nid=librepcb\n\n[user]\nfoo= bar",
+        rule: Rule::header,
+        tokens: [
+            header(0, 49, [
+                header_part(0, 32, [
+                    header_section(0, 6, [
+                        ident(1, 5)
+                    ]),
+                    header_item(7, 20, [
+                        header_key(7, 14, [
+                           ident(7, 14)
+                        ]),
+                        header_value(17, 20, [
+                            string(17, 20)
+                        ])
+                    ]),
+                    header_item(21, 32, [
+                        header_key(21, 23, [
+                           ident(21, 23)
+                        ]),
+                        header_value(24, 32, [
+                            string(24, 32)
+                        ])
+                    ])
+                ]),
+                header_part(34, 49, [
+                    header_section(34, 40, [
+                        ident(35, 39)
+                    ]),
+                    header_item(41, 49, [
+                        header_key(41, 44, [
+                           ident(41, 44)
+                        ]),
+                        header_value(46, 49, [
+                            string(46, 49)
+                        ])
                     ])
                 ])
             ])
