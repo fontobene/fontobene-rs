@@ -30,7 +30,7 @@ header_key     = ${ ident }
 header_value   = ${ string }
 header_item    =  { header_key ~ "=" ~ header_value }
 header_part    =  { header_section ~ newline ~ header_item ~ (newline ~ header_item)* }
-header         =  { ( header_part ~ newline* )+ }
+header         =  { ( (header_part | comment) ~ newline* )+ }
 
 // Glyph definitions
 codepoint   = ${ hex_nozero ~ hex ~ hex ~ hex ~ hex ~ hex |
