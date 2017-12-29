@@ -32,14 +32,14 @@ header_item    =  { header_key ~ "=" ~ header_value }
 header_part    =  { header_section ~ newline ~ header_item ~ (newline ~ header_item)* }
 header         =  { ( header_part ~ newline* )+ }
 
-// Glyph definition
+// Glyph definitions
 codepoint   = ${ hex_nozero ~ hex ~ hex ~ hex ~ hex ~ hex |
                  hex_nozero ~ hex ~ hex ~ hex ~ hex |
                  hex ~ hex ~ hex ~ hex }
 glyph       = @{ "[" ~ codepoint ~ "]" }
 declaration =  { glyph ~ nonl* }
 reference   = ${ "@" ~ codepoint }
-coord_pair  = ${ number ~ "," ~ number }
+coord_pair  = ${ number ~ "," ~ number ~ ("," ~ number)? }
 polyline    = ${ coord_pair ~ (";" ~ coord_pair)* }
 bodyitem    = _{ (reference | polyline) }
 definition  =  { declaration ~ newline ~ bodyitem ~ (newline ~ bodyitem)* }

@@ -206,6 +206,20 @@ fn coord_pair() {
         negatives: vec![],
         pos: 2
     }
+
+    // Should parse `1,2,3`
+    parses_to! {
+        parser: FontobeneParser,
+        input: "1,2,3",
+        rule: Rule::coord_pair,
+        tokens: [
+            coord_pair(0, 5, [
+                number(0, 1),
+                number(2, 3),
+                number(4, 5)
+            ])
+        ]
+    }
 }
 
 #[test]

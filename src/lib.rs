@@ -15,4 +15,5 @@ const _GRAMMAR: &'static str = include_str!("../fontobene.pest");
 #[derive(Parser)]
 #[grammar = "../fontobene.pest"]
 /// The main parser.
+
 pub struct FontobeneParser;
