@@ -3,6 +3,9 @@
 // @ -> Atomic (No whitespace, cascading)
 // $ -> Compound atomic (Like atomic but not cascading)
 // ! -> Non-atomic (Stop cascading of atomics)
+//
+// The entire rule format is specified here:
+// https://docs.rs/pest_derive/
 
 // Helpers
 nonl = _{ !newline ~ any }
