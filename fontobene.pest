@@ -45,7 +45,7 @@ bodyitem    = _{ (reference | polyline) }
 definition  =  { declaration ~ newline ~ bodyitem ~ (newline ~ bodyitem)* }
 
 // Main rule
-fontobene = { soi ~ eoi }
+main = { soi ~ header ~ (definition ~ newline+)+ ~ eoi }
 
 // Newlines
 newline = _{ "\n" | "\r\n" }
