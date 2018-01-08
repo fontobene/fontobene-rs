@@ -167,6 +167,26 @@ fn number() {
             number(0, 7)
         ]
     }
+
+    // Should parse .5
+    parses_to! {
+        parser: FontobeneParser,
+        input: ".5",
+        rule: Rule::number,
+        tokens: [
+            number(0, 2)
+        ]
+    }
+
+    // Should parse -.5
+    parses_to! {
+        parser: FontobeneParser,
+        input: "-.5",
+        rule: Rule::number,
+        tokens: [
+            number(0, 3)
+        ]
+    }
 }
 
 #[test]
