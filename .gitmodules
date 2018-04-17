@@ -1,0 +1,3 @@
+[submodule "src/tests/fonts"]
+	path = src/tests/fonts
+	url = https://github.com/fontobene/fontobene-fonts/
