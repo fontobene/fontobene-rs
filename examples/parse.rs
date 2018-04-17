@@ -17,7 +17,7 @@ fn main() {
     }
 
     let input = FileInput::new(&args[1]).expect("Could not open file");
-    let parsed = FontobeneParser::parse(Rule::main, Rc::new(input))
+    let _parsed = FontobeneParser::parse(Rule::main, Rc::new(input))
         .unwrap_or_else(|e| panic!("{0}: {0:?}", e));
     
     println!("Parsed");
