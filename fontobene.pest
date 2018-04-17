@@ -48,8 +48,12 @@ polyline    = ${ coord_pair ~ (";" ~ coord_pair)* }
 bodyitem    = _{ (reference | polyline) }
 definition  =  { declaration ~ newline ~ bodyitem ~ (newline ~ bodyitem)* }
 
+// Body
+separator = _{ newline* ~ "---" ~ newline+ }
+body      = _{ (definition ~ newline+)+ }
+
 // Main rule
-main = { soi ~ header ~ (definition ~ newline+)+ ~ eoi }
+main = { soi ~ header ~ separator ~ body ~ eoi }
 
 // Newlines
 newline = _{ "\n" | "\r\n" }
