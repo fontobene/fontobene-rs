@@ -287,7 +287,7 @@ fn polyline() {
 fn definition() {
     parses_to! {
         parser: FontobeneParser,
-        input: "[0041]\n@0040",
+        input: "[0041]\n@0040\n",
         rule: Rule::definition,
         tokens: [
             definition(0, 12, [
@@ -296,8 +296,10 @@ fn definition() {
                         codepoint(1, 5)
                     ])
                 ]),
-                reference(7, 12, [
-                    codepoint(8, 12)
+                references(7, 12, [
+                    reference(7, 12, [
+                        codepoint(8, 12)
+                    ])
                 ])
             ])
         ]
@@ -305,30 +307,37 @@ fn definition() {
 
     parses_to! {
         parser: FontobeneParser,
-        input: "[0041] A\n@0040  \n 1,2;3,-4.1\n@0039",
+        input: "[0041] A\n@0040  \n @0039\n1,2;3,-4.1\n~1.5",
         rule: Rule::definition,
         tokens: [
-            definition(0, 34, [
+            definition(0, 39, [
                 declaration(0, 8, [
                     glyph(0, 6, [
                         codepoint(1, 5)
                     ])
                 ]),
-                reference(9, 14, [
-                    codepoint(10, 14)
-                ]),
-                polyline(18, 28, [
-                    coord_pair(18, 21, [
-                       number(18, 19),
-                       number(20, 21)
+                references(9, 23, [
+                    reference(9, 14, [
+                        codepoint(10, 14)
                     ]),
-                    coord_pair(22, 28, [
-                       number(22, 23),
-                       number(24, 28)
+                    reference(18, 23, [
+                      codepoint(19, 23)
                     ])
                 ]),
-                reference(29, 34, [
-                  codepoint(30, 34)
+                polylines(24, 34, [
+                    polyline(24, 34, [
+                        coord_pair(24, 27, [
+                           number(24, 25),
+                           number(26, 27)
+                        ]),
+                        coord_pair(28, 34, [
+                           number(28, 29),
+                           number(30, 34)
+                        ])
+                    ])
+                ]),
+                ws_definition(35, 39, [
+                    number(36, 39)
                 ])
             ])
         ]
