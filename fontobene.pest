@@ -51,11 +51,11 @@ polylines     =  { polyline ~ (newline ~ polyline)* }
 definition    =  { declaration ~ (newline ~ references)? ~ (newline ~ polylines)? ~ (newline ~ ws_definition)? }
 
 // Body
-separator = _{ newline* ~ "---" ~ newline+ }
-body      = _{ (definition ~ newline+)+ }
+body = _{ definition ~ (newline+ ~ definition)* }
 
 // Main rule
-main = { soi ~ header ~ separator ~ body ~ eoi }
+separator = _{ newline* ~ "---" ~ newline+ }
+main      = { soi ~ header ~ separator ~ body ~ eoi }
 
 // Newlines
 newline = _{ "\n" | "\r\n" }
